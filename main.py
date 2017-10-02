@@ -1,12 +1,13 @@
-import feedparser
+import datetime as dt
 from credentials import *
+from AdrenalineFeed import *
 
+a = AdrenalineFeed()
+a.parse()
 
-d = feedparser.parse('https://adrenaline.uol.com.br/forum/forums/for-sale.221/index.rss')
+yesterday = dt.datetime(2017, 10, 30)
 
-print(d['entries'][0]['id'])
-print(d['entries'][0]['link'])
-print(d['entries'][0]['title'])
-print(d['entries'][1]['id'])
-print(d['entries'][1]['link'])
-print(d['entries'][1]['title'])
+print(a.get_new_items_since(yesterday))
+
+print(a.get_most_recent_published_item())
+#a.debug()
