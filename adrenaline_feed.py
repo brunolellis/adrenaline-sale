@@ -14,7 +14,7 @@ class AdrenalineFeed(object):
     def parse(self):
         self.contents = feedparser.parse(self.url)
 
-    def get_most_recent_published_item(self):
+    def get_most_recent_published_date(self):
         e = self.contents['entries'][0]
         return datetime.fromtimestamp(mktime(e['published_parsed']))
 

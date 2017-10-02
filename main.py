@@ -1,13 +1,24 @@
 import datetime as dt
-from credentials import *
-from AdrenalineFeed import *
+from adrenaline_feed import *
+from publication_handler import *
+from twitter import *
 
-a = AdrenalineFeed()
-a.parse()
+def main():
+    p = PublicationHandler()
+    since = p.get_last_published_date()
 
-yesterday = dt.datetime(2017, 10, 30)
+    feed = AdrenalineFeed()
+    feed.parse()
 
-print(a.get_new_items_since(yesterday))
+    new_items = feed.get_new_items_since(since)
+    new_items.reverse()
 
-print(a.get_most_recent_published_item())
-#a.debug()
+    twitter = Twitter()
+    for i in new_items:
+        tweet = i.title + ' ' + i.link
+        #print(tweet)
+        twitter.publish(tweet)
+
+    p.set_last_published_date(feed.get_most_recent_published_date())
+
+    print("concluido com sucesso")
