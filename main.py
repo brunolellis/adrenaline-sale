@@ -21,4 +21,7 @@ def main():
 
     p.set_last_published_date(feed.get_most_recent_published_date())
 
-    print("concluido com sucesso")
+    print("concluido com sucesso: ", len(new_items))
+
+if __name__ == '__main__':
+    main()

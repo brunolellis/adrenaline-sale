@@ -7,7 +7,7 @@ import datetime
 
 class PublicationHandler(object):
 
-    def __init__(self):
+    def connect(self):
         parse.uses_netloc.append("postgres")
         url = parse.urlparse(os.environ["DATABASE_URL"])
         try:
@@ -21,7 +21,12 @@ class PublicationHandler(object):
         except e:
             print("Unable to connect to the database", e)
     
+    def close(self):
+        self.conn.commit()
+        self.conn.close()
+
     def get_last_published_date(self):
+        self.connect()
         cur = self.conn.cursor()
         cur.execute("SELECT last_date FROM last_publication")
         rows = cur.fetchall()
@@ -30,8 +35,14 @@ class PublicationHandler(object):
         else:
             return rows[0][0]
 
+        cur.close()
+        self.close()
+
     def set_last_published_date(self, date):
+        self.connect()
         cur = self.conn.cursor()
         cur.execute("DELETE FROM last_publication")
         cur.execute("INSERT INTO last_publication VALUES (%s)", (date, ))
-        self.conn.commit()
+        
+        cur.close()
+        self.close()

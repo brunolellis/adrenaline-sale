@@ -12,4 +12,7 @@ class Twitter(object):
         self.api = tweepy.API(self.auth)
 
     def publish(self, message):
-        self.api.update_status(message)
+        try:
+            self.api.update_status(message)
+        except tweepy.error.TweepError:
+            pass
