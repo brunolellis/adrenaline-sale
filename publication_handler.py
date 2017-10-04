@@ -25,24 +25,28 @@ class PublicationHandler(object):
         self.conn.commit()
         self.conn.close()
 
-    def get_last_published_date(self):
+    def is_link_published(self, link):
         self.connect()
         cur = self.conn.cursor()
-        cur.execute("SELECT last_date FROM last_publication")
-        rows = cur.fetchall()
-        if len(rows) == 0:
-            return datetime.datetime.now()
-        else:
-            return rows[0][0]
+
+        thread_id = self.get_thread_id(link)
+        cur.execute("SELECT count(1) FROM posts WHERE thread_id = %s", (thread_id, ))
+        c = cur.fetchone()
 
         cur.close()
-        self.close()
+        self.close()        
+        return c[0] == 1
 
-    def set_last_published_date(self, date):
+    def publish(self, post):
         self.connect()
         cur = self.conn.cursor()
-        cur.execute("DELETE FROM last_publication")
-        cur.execute("INSERT INTO last_publication VALUES (%s)", (date, ))
+
+        thread_id = self.get_thread_id(post.link)
+        cur.execute("INSERT INTO posts (thread_id) VALUES (%s)", (thread_id, ))
         
         cur.close()
         self.close()
+
+    def get_thread_id(self, link):
+        # https://adrenaline.uol.com.br/forum/threads/steam-tomb-raider-goty-r-12-75.621328/
+        return int(link.split('.')[-1].replace('/',''))
