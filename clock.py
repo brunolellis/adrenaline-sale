@@ -3,7 +3,7 @@ import main
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('interval', minutes = 60)
+@sched.scheduled_job('interval', hours = 2)
 def timed_job():
     main.main()
 
