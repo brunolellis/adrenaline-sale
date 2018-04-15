@@ -1,5 +1,3 @@
-#REDIS_URL: redis://h:p0a8fdfdc4798fe483113b712fa51c85960f30239b22c1597fe2a115a68f32062@ec2-34-206-56-226.compute-1.amazonaws.com:59799
-
 import os
 import psycopg2
 from urllib import parse
