@@ -6,7 +6,9 @@ Utiliza python (APScheduler e feedparser), postgresql (psycopg2), heroku e twitt
 ## Configurações
 ### heroku
 - PostgreSQL:
-    `heroku config:set DATABASE_URL=postgres://qwerty:zxcvbn@compute-1.amazonaws.com:5432/db`
+    ```
+    heroku config:set DATABASE_URL=postgres://qwerty:zxcvbn@compute-1.amazonaws.com:5432/db
+    ```
 
 - Twitter:
     ```
